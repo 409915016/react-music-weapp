@@ -26,39 +26,40 @@ export default class Index extends Component {
   componentDidHide () { }
 
   ContentItemClickHandle({book_id}){
-    console.log(book_id)
     Taro.navigateTo({ url: `/pages/player/index?book_id=${book_id}` })
   }
 
   render () {
     const {books, sources} = this.state
+
     return (
-        <view className="wrapper">
-          <view className="header">
-            <view className="header__title">
-              <text>{ sources.title }</text>
-            </view>
-            <view className="header__desc">
-              <text>{ sources.desc }</text>
-              <text>共{ sources.chapters || books.length }本</text>
-            </view>
-          </view>
-          <view className="content">
+        <View className="wrapper">
+          <View className="header">
+            <View className="header__title">
+              <Text>{ sources.title }</Text>
+            </View>
+            <View className="header__desc">
+              <Text>{ sources.desc }</Text>
+              <Text>共{ sources.chapters || books.length }本</Text>
+            </View>
+          </View>
+          <View className="content">
             {
               books.map(i =>{
                 return (
-                    <view className="content-item" onClick={()=>{ this.ContentItemClickHandle({book_id: i.id}) }}>
-                      <view className="content-item__cover">
+                    <View className="content-item" onClick={()=>{ this.ContentItemClickHandle({book_id: i.id}) }}>
+                      <View className="content-item__cover">
                         <image mode="aspectFit" src={i.cover_url} alt=""/>
-                      </view>
-                      <view className="content-item__content">
-                        <view className="content-item__content__title">{ i.title }</view>
-                        <view className="content-item__content__desc">{ i.desc }</view>
-                      </view>
-                    </view>
+                      </View>
+                      <View className="content-item__content">
+                        <View className="content-item__content__title">{ i.title }</View>
+                        <View className="content-item__content__desc">{ i.desc }</View>
+                      </View>
+                    </View>
                 )
               })
             }
-        </view>
-  </view>)}
+        </View>
+  </View>)
+  }
 }

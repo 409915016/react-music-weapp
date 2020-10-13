@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 
 import Taro, {getCurrentInstance} from '@tarojs/taro'
-import {View, Image, Slider}      from '@tarojs/components'
+import {View, Text, Image, Slider}      from '@tarojs/components'
 
 import books    from '../../assets/books.json'
 import chapters from '../../assets/chapters.json'
@@ -15,7 +15,7 @@ import ajd from '../../assets/images/ajd.png'
 import ajf from '../../assets/images/ajf.png'
 import ajb from '../../assets/images/ajb.png'
 
-const backgroundAudioManager = Taro.getBackgroundAudioManager()
+const innerAudioContext = Taro.createInnerAudioContext()
 
 export default class Index extends Component {
   constructor (props) {
@@ -41,9 +41,9 @@ export default class Index extends Component {
       Taro.setNavigationBarTitle({
         title: name
       })
-      backgroundAudioManager.title       = name
-      backgroundAudioManager.coverImgUrl = al.picUrl
-      backgroundAudioManager.src         = url
+      innerAudioContext.title       = name
+      innerAudioContext.coverImgUrl = al.picUrl
+      innerAudioContext.src         = url
       this.setState({
         lrc       : lrcInfo,
         isPlaying : true,
@@ -56,14 +56,14 @@ export default class Index extends Component {
   }
 
   pauseMusic () {
-    backgroundAudioManager.pause()
+    innerAudioContext.pause()
     this.setState({
       isPlaying: false
     })
   }
 
   playMusic () {
-    backgroundAudioManager.play()
+    innerAudioContext.play()
     this.setState({
       isPlaying: true
     })
@@ -85,7 +85,7 @@ export default class Index extends Component {
 
     let that = this
     // fix 点击同一首歌重新播放bug
-    Taro.getBackgroundAudioPlayerState({
+    Taro.getAvailableAudioSources({
       success (res) {
         if (res.status !== 2) {
           that.setState({
@@ -93,10 +93,10 @@ export default class Index extends Component {
           })
           timer = setInterval(() => {
             that.setState({
-              currentyTime: backgroundAudioManager.currentTime
+              currentyTime: innerAudioContext.currentTime
             })
 
-            that.updateProgress(backgroundAudioManager.currentTime)
+            that.updateProgress(innerAudioContext.currentTime)
           }, 300)
         }
       }
@@ -106,29 +106,29 @@ export default class Index extends Component {
 
   componentDidMount () {
 
-    const that = this
-    const {id} = that.$router.params
-    this.props.getSongInfo({
-      id
-    })
+    // const that = this
+    // const {id} = that.$router.params
+    // this.props.getSongInfo({
+    //   id
+    // })
 
-    backgroundAudioManager.onPause(() => {
+    innerAudioContext.onPause(() => {
       this.onPause()
     })
-    backgroundAudioManager.onPlay(() => {
+    innerAudioContext.onPlay(() => {
       that.setState({
         isPlaying: true
       })
       const timer = setInterval(() => {
         if (!this.state.isPlaying) return
         this.setState({
-          currentyTime: backgroundAudioManager.currentTime
+          currentyTime: innerAudioContext.currentTime
         })
-        this.updateLrc(backgroundAudioManager.currentTime)
-        this.updateProgress(backgroundAudioManager.currentTime)
+        this.updateLrc(innerAudioContext.currentTime)
+        this.updateProgress(innerAudioContext.currentTime)
       }, 300)
     })
-    backgroundAudioManager.onEnded(() => {
+    innerAudioContext.onEnded(() => {
       const {playMode}   = this.props.song
       const routes       = Taro.getCurrentPages()
       const currentRoute = routes[routes.length - 1].route
@@ -149,13 +149,13 @@ export default class Index extends Component {
     const {value}       = e.detail
     const {dt}          = this.props.song.currentSongInfo
     let currentPosition = Math.floor((dt / 1000) * value / 100)
-    backgroundAudioManager.seek(currentPosition)
-    backgroundAudioManager.play()
+    innerAudioContext.seek(currentPosition)
+    innerAudioContext.play()
   }
 
   percentChanging () {
     this.onPause()
-    backgroundAudioManager.pause()
+    innerAudioContext.pause()
   }
 
   // 获取下一首
@@ -214,26 +214,26 @@ export default class Index extends Component {
     const {book, chapter, currentyTime, playPercent, isPlaying} = this.state
 
     return (
-      <view className="player-wrapper">
-        <view className="player-wrapper__bg"></view>
-        <view className="player-content">
+      <View className="player-wrapper">
+        <View className="player-wrapper__bg"></View>
+        <View className="player-content">
 
-          <view className="player-content__title">
-            <text>{ book.title }</text>
-          </view>
-          <view className="player-content__desc">
-            <text> { chapter.title }</text>
-          </view>
+          <View className="player-content__title">
+            <Text>{ book.title }</Text>
+          </View>
+          <View className="player-content__desc">
+            <Text> { chapter.title }</Text>
+          </View>
 
-          <view className="player-content__cover">
+          <View className="player-content__cover">
             <Image src={ book.cover_url }/>
 
-          </view>
+          </View>
 
-          <view className="player-content__time">
-            <view className='time-left'>
+          <View className="player-content__time">
+            <View className='time-left'>
               { timeLengthFormator(currentyTime * 1000) }
-            </view>
+            </View>
             <Slider className='time-line' tep={ 0.01 } value={ playPercent } activeColor='#fff' backgroundColor='#888'
                     blockColor='#fff' blockSize={ 18 }
                     onChange={ () => {
@@ -241,13 +241,13 @@ export default class Index extends Component {
                     } } onChanging={ () => {
               this.percentChanging()
             } }></Slider>
-            <view className='time-right'>
+            <View className='time-right'>
               { timeLengthFormator(chapter.dt * 1000) }
-            </view>
+            </View>
 
-          </view>
+          </View>
 
-          <view className="player-content__bottom">
+          <View className="player-content__bottom">
             <View className='icon iconfont icon-chukou' onClick={ () => {
               this.handleCPlayList()
             } }></View>
@@ -276,8 +276,8 @@ export default class Index extends Component {
             <View className='icon iconfont icon-chukou' onClick={ () => {
               this.handleCPlayList()
             } }></View>
-          </view>
-        </view>
-      </view>)
+          </View>
+        </View>
+      </View>)
   }
 }

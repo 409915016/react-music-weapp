@@ -26,7 +26,7 @@ export default class Index extends Component {
   componentDidHide () { }
 
   ContentItemClickHandle({book_id}){
-    console.log(111)
+    console.log(book_id)
     Taro.navigateTo({ url: `/pages/player/index?book_id=${book_id}` })
   }
 
@@ -47,7 +47,7 @@ export default class Index extends Component {
             {
               books.map(i =>{
                 return (
-                    <view className="content-item" onClick={this.ContentItemClickHandle.bind({book_id: i.id})}>
+                    <view className="content-item" onClick={()=>{ this.ContentItemClickHandle({book_id: i.id}) }}>
                       <view className="content-item__cover">
                         <image mode="aspectFit" src={i.cover_url} alt=""/>
                       </view>

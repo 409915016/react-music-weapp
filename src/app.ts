@@ -1,5 +1,6 @@
 import { Component } from 'react'
 import './app.scss'
+import './assets/fonts/iconfont.css'
 
 class App extends Component {
 

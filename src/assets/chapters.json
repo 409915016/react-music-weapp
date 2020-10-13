@@ -3,6 +3,7 @@
     "id":  10,
     "book_id": 1,
     "rank": 1,
+    "dt": 1012,
     "title": "01 红色特工传奇：无名英雄身后60年-1",
     "url": "http://1251434507.vod2.myqcloud.com/93ffc8dfvodgzp1251434507/cf66082d5285890792034624239/DgynXJ1QMS0A.mp3"
   },
@@ -10,6 +11,7 @@
     "id":  11,
     "book_id": 1,
     "rank": 2,
+    "dt": 905,
     "title": "02 红色特工传奇：无名英雄身后60年-2",
     "url": "http://1251434507.vod2.myqcloud.com/93ffc8dfvodgzp1251434507/cf66a10e5285890792034625518/n5n22CV31xMA.mp3"
   },
@@ -17,6 +19,7 @@
     "id":  12,
     "book_id": 1,
     "rank": 3,
+    "dt": 1220,
     "title": "03 汪声和：在台湾就义、曾受苏联领导的红色特工-1 ",
     "url": "http://1251434507.vod2.myqcloud.com/93ffc8dfvodgzp1251434507/cfac45f35285890792034660578/aTmRwgW5QtAA.mp3"
   },
@@ -24,6 +27,7 @@
     "id":  13,
     "book_id": 1,
     "rank": 4,
+    "dt": 1026,
     "title": "04 汪声和：在台湾就义、曾受苏联领导的红色特工-2 ",
     "url": "http://1251434507.vod2.myqcloud.com/93ffc8dfvodgzp1251434507/cfd44d945285890792034687570/kpXUaGUMeQkA.mp3"
   },
@@ -31,6 +35,7 @@
     "id":  14,
     "book_id": 1,
     "rank": 5,
+    "dt": 1154,
     "title": "05 陈孚木：潜伏在汪伪心脏的中共特工 ",
     "url": "http://1251434507.vod2.myqcloud.com/93ffc8dfvodgzp1251434507/d1df72ec5285890792034744640/joN2tI5APp0A.mp3"
   }

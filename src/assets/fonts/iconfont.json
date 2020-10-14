@@ -1,0 +1,65 @@
+{
+  "id": "2128095",
+  "name": "党报系统",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "17648460",
+      "name": "书本",
+      "font_class": "-book",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "17648435",
+      "name": "列表播放中",
+      "font_class": "-wave",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
+      "icon_id": "17648377",
+      "name": "下一首",
+      "font_class": "-next",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "17648378",
+      "name": "暂停",
+      "font_class": "-pause",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    },
+    {
+      "icon_id": "17648372",
+      "name": "播放",
+      "font_class": "-play",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "17648373",
+      "name": "分享",
+      "font_class": "-share",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "17648374",
+      "name": "列表",
+      "font_class": "-list",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "17648375",
+      "name": "上一首",
+      "font_class": "-prev",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    }
+  ]
+}

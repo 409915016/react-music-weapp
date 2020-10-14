@@ -1,6 +1,7 @@
 import { Component } from 'react'
 import './app.scss'
 import './assets/fonts/iconfont.css'
+import 'taro-ui/dist/style/index.scss' // 全局引入一次即可
 
 class App extends Component {
 

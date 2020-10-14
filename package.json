@@ -40,9 +40,10 @@
     "@tarojs/react": "3.0.14",
     "@tarojs/runtime": "3.0.14",
     "@tarojs/taro": "3.0.14",
+    "classnames": "^2.2.6",
     "react": "^16.10.0",
     "react-dom": "^16.10.0",
-    "taro-ui": "^2.3.4"
+    "taro-ui": "3.0.0-alpha.3"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",

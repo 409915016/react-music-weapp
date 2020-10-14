@@ -1,66 +1,67 @@
 import React, {Component} from 'react'
 
-import { View, Text } from '@tarojs/components'
+import {View} from '@tarojs/components'
 
-import { AtAvatar, AtList, AtListItem } from 'taro-ui'
+import {AtList, AtListItem} from 'taro-ui'
 
 import './index.scss'
-import classnames from 'classnames'
+import classnames           from 'classnames'
 
 import thumb from '../../assets/images/thumb.jpg'
-
-import chapters from '../../assets/chapters.json'
 
 class PlayContent extends Component {
   static options = {
     addGlobalClass: true
   }
 
-  componentWillMount() {
+  componentWillMount () {
 
   }
 
-  doPlaySong(song) {
+  doPlaySong (song) {
     this.props.doPlaySong(song)
   }
 
-  handleClose() {
-    console.log(312)
+  handleClose () {
     this.props.handleClose()
   }
 
-  renderList() {
-    const { book, chapters, current }  = this.props
+  renderList () {
+    const {book, chapters, current} = this.props
 
     return chapters.map((item, index) => {
       return (
         <AtListItem className={
           classnames({
-            active: item.id == current.id,
+            active      : item.id == current.id,
+            'custom-all': true
           })
-          } key={item.id} title={item.title}/>
+        } key={ item.id } title={ item.title }/>
       )
     })
 
   }
 
-  handleClose() {
+  handleClose () {
     this.props.handleClose()
   }
-  render() {
-    const { book, chapter } = this.props
+
+  render () {
+    const {book, chapter} = this.props
     return (
       <View className='play-content'>
         <AtList>
           <AtListItem className='play-content-menu'
-            thumb={thumb}
-            title={book.title} note={book.desc}/>
+                      thumb={ thumb }
+                      title={ book.title } note={ book.desc }/>
           <View className='play-content-text play-content-text--title'>【目录】</View>
-          {this.renderList()}
+          { this.renderList() }
         </AtList>
 
-        <View className='play-content-more' onClick={()=>{ this.handleClose() }}>
-          { `查看更多 >`}
+        <View className='play-content-more' onClick={ () => {
+          this.handleClose()
+        } }>
+          { `查看更多 >` }
         </View>
 
         <View className='play-content-text play-content-text--title'>【简介】</View>
@@ -84,4 +85,5 @@ class PlayContent extends Component {
     )
   }
 }
+
 export default PlayContent

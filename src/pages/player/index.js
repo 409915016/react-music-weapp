@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 
-import Taro, {getCurrentInstance} from '@tarojs/taro'
-import {View, Text, Image, Slider}      from '@tarojs/components'
+import Taro, {getCurrentInstance}  from '@tarojs/taro'
+import {View, Text, Image, Slider} from '@tarojs/components'
 
-import PlayList from '../../component/PlayList'
+import PlayList    from '../../component/PlayList'
 import PlayContent from '../../component/PlayContent'
 
 import books    from '../../assets/books.json'
@@ -12,11 +12,8 @@ import chapters from '../../assets/chapters.json'
 import {timeLengthFormator} from '../../utils'
 
 import './index.scss'
-
-import ajh from '../../assets/images/ajh.png'
-import ajd from '../../assets/images/ajd.png'
-import ajf from '../../assets/images/ajf.png'
-import ajb from '../../assets/images/ajb.png'
+import ajd                  from '../../assets/images/ajd.png'
+import ajf                  from '../../assets/images/ajf.png'
 
 const innerAudioContext = Taro.createInnerAudioContext()
 
@@ -178,7 +175,7 @@ export default class Index extends Component {
   }
 
   handleCPlayList () {
-    console.log(`更新状态${this.state.isOpened} -> ${!this.state.isOpened}`)
+    console.log(`更新状态${ this.state.isOpened } -> ${ !this.state.isOpened }`)
     this.setState({
       isOpened: !this.state.isOpened
     })
@@ -218,8 +215,8 @@ export default class Index extends Component {
     const {book, chapter, currentyTime, playPercent, isPlaying, isOpened, options} = this.state
 
     return (
+
       <View className="player-wrapper">
-        <View className="player-wrapper__bg"></View>
         <View className="player-content">
 
           <View className="player-content__title">
@@ -287,19 +284,26 @@ export default class Index extends Component {
         </View>
 
         <PlayContent
-          current={chapter}
-          book={book} chapters={options.chapters}
-          handleClose={ ()=>{ this.handleCPlayList() }}
+          current={ chapter }
+          book={ book } chapters={ options.chapters }
+          handleClose={ () => {
+            this.handleCPlayList()
+          } }
         />
 
-        {/*<View className="player-line"></View>*/}
+        {/*<View className="player-line"></View>*/ }
 
-        <PlayList isOpened={isOpened}
-                  list={options.chapters}
-                  current={chapter}
-                  handleClose={ ()=>{ this.handleCPlayList() }}
-                  doPlaySong={ ()=>{ this.doPlaySong() }}/>
+        <PlayList isOpened={ isOpened }
+                  chapters={ options.chapters }
+                  current={ chapter }
+                  handleClose={ () => {
+                    this.handleCPlayList()
+                  } }
+                  doPlaySong={ () => {
+                    this.doPlaySong()
+                  } }/>
 
-      </View>)
+      </View>
+    )
   }
 }

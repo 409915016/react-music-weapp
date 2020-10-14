@@ -4,6 +4,7 @@ import Taro, {getCurrentInstance} from '@tarojs/taro'
 import {View, Text, Image, Slider}      from '@tarojs/components'
 
 import PlayList from '../../component/PlayList'
+import PlayContent from '../../component/PlayContent'
 
 import books    from '../../assets/books.json'
 import chapters from '../../assets/chapters.json'
@@ -177,6 +178,7 @@ export default class Index extends Component {
   }
 
   handleCPlayList () {
+    console.log(`更新状态${this.state.isOpened} -> ${!this.state.isOpened}`)
     this.setState({
       isOpened: !this.state.isOpened
     })
@@ -284,13 +286,19 @@ export default class Index extends Component {
 
         </View>
 
-        <View className="player-line"></View>
+        <PlayContent
+          current={chapter}
+          book={book} chapters={options.chapters}
+          handleClose={ ()=>{ this.handleCPlayList() }}
+        />
+
+        {/*<View className="player-line"></View>*/}
 
         <PlayList isOpened={isOpened}
                   list={options.chapters}
                   current={chapter}
-                  handleClose={ ()=>{ this.handleCPlayList }}
-                  doPlaySong={ ()=>{ this.doPlaySong }}/>
+                  handleClose={ ()=>{ this.handleCPlayList() }}
+                  doPlaySong={ ()=>{ this.doPlaySong() }}/>
 
       </View>)
   }

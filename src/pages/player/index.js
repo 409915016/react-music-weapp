@@ -3,6 +3,8 @@ import React, {Component} from 'react'
 import Taro, {getCurrentInstance} from '@tarojs/taro'
 import {View, Text, Image, Slider}      from '@tarojs/components'
 
+import PlayList from '../../component/PlayList'
+
 import books    from '../../assets/books.json'
 import chapters from '../../assets/chapters.json'
 
@@ -211,7 +213,7 @@ export default class Index extends Component {
   }
 
   render () {
-    const {book, chapter, currentyTime, playPercent, isPlaying} = this.state
+    const {book, chapter, currentyTime, playPercent, isPlaying, isOpened, options} = this.state
 
     return (
       <View className="player-wrapper">
@@ -224,12 +226,10 @@ export default class Index extends Component {
           <View className="player-content__desc">
             <Text> { chapter.title }</Text>
           </View>
-
           <View className="player-content__cover">
             <Image src={ book.cover_url }/>
 
           </View>
-
           <View className="player-content__time">
             <View className='time-left'>
               { timeLengthFormator(currentyTime * 1000) }
@@ -248,36 +248,50 @@ export default class Index extends Component {
           </View>
 
           <View className="player-content__bottom">
-            <View className='icon iconfont icon-chukou' onClick={ () => {
+            <View onClick={ () => {
               this.handleCPlayList()
-            } }></View>
-            <Image
-              src={ ajh }
-              className='song__operation__prev'
+            } }>
+              <View className='icon iconfont icon-list'></View>
+              <Text className='player-content__bottom-text'>列表</Text>
+            </View>
+            <View
+              className='icon iconfont icon-prev'
               onClick={ () => {
                 this.getPrevSong
               } }
             />
             {
-              isPlaying ? <Image src={ ajd } className='song__operation__play' onClick={ () => {
+              isPlaying ? <View src={ ajd } className='icon iconfont icon-pause' onClick={ () => {
                   this.pauseMusic
                 } }/> :
-                <Image src={ ajf } className='song__operation__play' onClick={ () => {
+                <View src={ ajf } className='icon iconfont icon-play' onClick={ () => {
                   this.pauseMusic
                 } }/>
             }
-            <Image
-              src={ ajb }
-              className='song__operation__next'
+            <View
+              className='icon iconfont icon-next'
               onClick={ () => {
                 this.getNextSong
               } }
             />
-            <View className='icon iconfont icon-chukou' onClick={ () => {
+            <View onClick={ () => {
               this.handleCPlayList()
-            } }></View>
+            } }>
+              <View className='icon iconfont icon-share'></View>
+              <Text className='player-content__bottom-text'>分享</Text>
+            </View>
           </View>
+
         </View>
+
+        <View className="player-line"></View>
+
+        <PlayList isOpened={isOpened}
+                  list={options.chapters}
+                  current={chapter}
+                  handleClose={ ()=>{ this.handleCPlayList }}
+                  doPlaySong={ ()=>{ this.doPlaySong }}/>
+
       </View>)
   }
 }

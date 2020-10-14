@@ -1,6 +1,5 @@
-// @import "~taro-ui/dist/style/index.scss";
-
 .player-wrapper {
+  position: relative;
   &__bg {
     transform: scale(1.2);
     transform-origin: center top;
@@ -9,11 +8,12 @@
     right: 0;
     top: 0;
     width: 100%;
-    height: 800rpx;
-    filter: blur(30px) brightness(.8);
+    height: 817px;
+    //filter: blur(30px) brightness(.8);
     overflow: hidden;
     z-index: -1;
     transition: opacity .3s linear;
+    background: linear-gradient(180deg,rgba(0,0,0,0.5) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,0.5));
 
     &:after {
       content: " ";
@@ -22,7 +22,7 @@
       right: 0;
       bottom: 0;
       top: 0;
-      background-color: #81604f;
+      background: url("../../assets/images/playbg.jpg");
     }
   }
 }
@@ -78,41 +78,14 @@
     display: flex;
     flex-flow: row nowrap;
 
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     color: #fff;
 
-    .song__operation__mode {
-      width: 100px;
-      height: 100px;
+    &-text {
+      font-size: 24rpx;
     }
 
-    .song__operation__prev {
-      width: 60px;
-      height: 60px;
-    }
-
-    .song__operation__play {
-      width: 120px;
-      height: 120px;
-      margin: 0 50px;
-    }
-
-    .song__operation__next {
-      width: 60px;
-      height: 60px;
-    }
-
-    .song__operation__like {
-      width: 100px;
-      height: 100px;
-    }
-
-    .icon-chukou {
-
-      font-size: 60px;
-      color: #fff;
-    }
   }
 }
 
@@ -123,4 +96,22 @@
 .time-left,
 .time-right {
   font-size: 20rpx;
+}
+
+.icon-list, .icon-share {
+  font-size: 36rpx;
+}
+
+.icon-prev, .icon-next {
+  font-size: 40rpx;
+}
+.icon-pause, .icon-play {
+  font-size: 70rpx;
+}
+
+
+.player-line {
+  width: 100%;
+  height: 10rpx;
+  background: #e6e6e6;
 }

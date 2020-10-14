@@ -38,9 +38,15 @@ export default class Index extends Component {
             <View className="header__title">
               <Text>{ sources.title }</Text>
             </View>
-            <View className="header__desc">
-              <Text>{ sources.desc }</Text>
-              <Text>共{ sources.chapters || books.length }本</Text>
+            <View className="at-row at-row__align--center at-row__justify--between header__desc">
+              <View className='at-col'>
+                <Text>{ sources.desc }</Text>
+              </View>
+              <View className='at-col at-col-1 at-col--auto'>
+                <Text className='icon iconfont icon-book'>
+                </Text>
+                <Text className='book-text'>共{ sources.chapters || books.length }本</Text>
+              </View>
             </View>
           </View>
           <View className="content">

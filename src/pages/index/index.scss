@@ -1,7 +1,7 @@
 .wrapper {
   background-image: url("http://images.infzm.com/cms/medias/image/20/10/13/b0sBaShEDymjxVEtw9s8XH3gLMxHt2VPhBLfc74q.jpeg");
-  background-size: auto;
   background-repeat: no-repeat;
+  background-size: contain;
   padding-top: 216rpx;
 }
 
@@ -39,30 +39,6 @@
     padding: 30rpx;
     border-bottom: 1rpx solid #f1f2f3;
 
-    //&:after {
-    //  content: '';
-    //  display: block;
-    //  position: absolute;
-    //  width: 1rpx;
-    //  height: 100%;
-    //  left: -15rpx;
-    //  top: 0;
-    //  background: #ebe8e0;
-    //}
-    //
-    //&:first-child:before {
-    //  content: '';
-    //  display: block;
-    //  position: absolute;
-    //  width: 10rpx;
-    //  height: 10rpx;
-    //  top: -20rpx;
-    //  left: -19rpx;
-    //  border-radius: 50%;
-    //  background: #c9aa8a;
-    //}
-
-
     &__cover {
       //padding: 5rpx;
 
@@ -72,7 +48,6 @@
         height: 140rpx;
       }
     }
-
 
     &__content{
       padding: 5rpx 0 0 30rpx;
@@ -89,4 +64,13 @@
 
     }
   }
+}
+
+.icon-book {
+  margin-right: 10rpx;
+  vertical-align: sub;
+  font-size: 38rpx;
+}
+.book-text {
+  font-size: 24rpx;
 }

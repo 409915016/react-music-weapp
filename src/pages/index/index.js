@@ -22,13 +22,34 @@ export default class Index extends Component {
     // Taro.navigateTo({ url: `/pages/player/index?book_id=${book_id}` })
   }
 
-  componentWillUnmount () { }
+  componentWillUnmount () {}
 
   componentDidShow () { }
 
   componentDidHide () { }
 
   ContentItemClickHandle({book_id}){
+
+    Taro.getBackgroundAudioPlayerState({
+      success (res) {
+        if (res.status !== 2) {
+          Taro.setStorage({
+            key: 'playing',
+            data: true
+          })
+        }
+      },
+      fail(err) {
+        console.error(err)
+        Taro.setStorage({
+          key: 'playing',
+          data: false
+        })
+      }
+
+    })
+
+
     Taro.navigateTo({ url: `/pages/player/index?book_id=${book_id}&from=index` })
   }
 

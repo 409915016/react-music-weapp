@@ -51,6 +51,7 @@ export default class Index extends Component {
           that.setState({
             isPlaying: true,
           })
+          that.setState({chapter: chapters.find(i => i.url ==  res.dataUrl)})
           timer = setInterval(() => {
             that.setState({
               currentyTime: backgroundAudioManager.currentTime
@@ -100,7 +101,16 @@ export default class Index extends Component {
       this.setState({
         firstEnter: false,
       })
-      this.setSongInfo(this.state.chapter)
+
+      Taro.getStorage({
+        key: 'playing',
+        success:  ({data}) => {
+          if(!data) {
+            this.setSongInfo(this.state.chapter)
+          }
+        }
+      })
+
     }
   }
 

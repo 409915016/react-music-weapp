@@ -15,7 +15,7 @@ class CPlayList extends Component {
   }
 
   componentWillMount() {
-    console.log(this.props.canPlayList)
+    //console.log(this.props.canPlayList)
   }
 
   doPlaySong(song) {
@@ -32,7 +32,7 @@ class CPlayList extends Component {
             active: item.id == current.id,
             'active-wave': item.id == current.id,
           })
-        } key={item.id} title={item.title}/>
+        } onClick={ () => { this.doPlaySong(item.id);this.handleClose() }} key={item.id} title={item.title}/>
       )
     })
 

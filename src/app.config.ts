@@ -8,5 +8,6 @@ export default {
     navigationBarBackgroundColor: '#fff',
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'white'
-  }
+  },
+  requiredBackgroundModes: ["audio", "location"]
 }

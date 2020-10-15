@@ -15,7 +15,9 @@ import './index.scss'
 import ajd                  from '../../assets/images/ajd.png'
 import ajf                  from '../../assets/images/ajf.png'
 
-const innerAudioContext = Taro.createInnerAudioContext()
+const backgroundAudioManager = Taro.getBackgroundAudioManager()
+
+let timer
 
 export default class Index extends Component {
   constructor (props) {
@@ -28,7 +30,6 @@ export default class Index extends Component {
       },
       currentyTime: 0,
       playPercent : 0,
-      //isPlaying: props.song.isPlaying,
       isPlaying   : false,
       isOpened    : false,
       firstEnter  : true
@@ -52,10 +53,10 @@ export default class Index extends Component {
           })
           timer = setInterval(() => {
             that.setState({
-              currentyTime: innerAudioContext.currentTime
+              currentyTime: backgroundAudioManager.currentTime
             })
 
-            that.updateProgress(innerAudioContext.currentTime)
+            that.updateProgress(backgroundAudioManager.currentTime)
           }, 300)
         }
       },
@@ -69,29 +70,28 @@ export default class Index extends Component {
 
   componentDidMount () {
 
-    // const that = this
+    const that = this
     // const {id} = that.$router.params
     // this.props.getSongInfo({
     //   id
     // })
 
-    innerAudioContext.onPause(() => {
+    backgroundAudioManager.onPause(() => {
       this.onPause()
     })
-    innerAudioContext.onPlay(() => {
+    backgroundAudioManager.onPlay(() => {
       that.setState({
         isPlaying: true
       })
       const timer = setInterval(() => {
         if (!this.state.isPlaying) return
         this.setState({
-          currentyTime: innerAudioContext.currentTime
+          currentyTime: backgroundAudioManager.currentTime
         })
-        this.updateLrc(innerAudioContext.currentTime)
-        this.updateProgress(innerAudioContext.currentTime)
+        this.updateProgress(backgroundAudioManager.currentTime)
       }, 300)
     })
-    innerAudioContext.onEnded(() => {e
+    backgroundAudioManager.onEnded(() => {
       this.getNextSong()
     })
   }
@@ -104,7 +104,6 @@ export default class Index extends Component {
   }
 
   componentDidUpdate (prevProps, {book, chapter, currentyTime, playPercent, isPlaying, isOpened, options}) {
-    //debugger
     if (this.state.chapter.id !== chapter.id || this.state.firstEnter) {
       this.setState({
         firstEnter: false,
@@ -116,9 +115,10 @@ export default class Index extends Component {
   setSongInfo (songInfo) {
     console.log(songInfo)
     try {
-      const {title, url} = songInfo
-      innerAudioContext.title       = title
-      innerAudioContext.src         = url
+      const {title, url, thumb} = songInfo
+      backgroundAudioManager.title       = title
+      backgroundAudioManager.src         = url,
+      backgroundAudioManager.coverImgUrl = thumb
       this.setState({
         isPlaying : true,
         firstEnter: false
@@ -130,14 +130,14 @@ export default class Index extends Component {
   }
 
   pauseMusic () {
-    innerAudioContext.pause()
+    backgroundAudioManager.pause()
     this.setState({
       isPlaying: false
     })
   }
 
   playMusic () {
-    innerAudioContext.play()
+    backgroundAudioManager.play()
     this.setState({
       isPlaying: true
     })
@@ -150,18 +150,18 @@ export default class Index extends Component {
     })
   }
 
-  percentChange (e) {
-    // this.onPause()
-    // const {value}       = e.detail
-    // const {dt}          = this.props.song.currentSongInfo
-    // let currentPosition = Math.floor((dt / 1000) * value / 100)
-    // innerAudioContext.seek(currentPosition)
-    // innerAudioContext.play()
+  percentChange ({detail}) {
+    this.onPause()
+    const {dt}          = this.state.chapter
+    let currentPosition = Math.floor((dt / 1000) * detail.value / 100)
+    this.updateProgress(currentPosition)
+    backgroundAudioManager.seek(currentPosition)
+    backgroundAudioManager.play()
   }
 
   percentChanging () {
     this.onPause()
-    innerAudioContext.pause()
+    backgroundAudioManager.pause()
   }
 
   // 获取下一首
@@ -193,9 +193,9 @@ export default class Index extends Component {
   }
 
   updateProgress (currentPosition) {
-    const {dt} = this.state.chapter.dt
+    const {dt} = this.state.chapter
     this.setState({
-      playPercent: currentPosition * 1000 * 100 / dt
+      playPercent: Math.floor(currentPosition * 1000 * 100 / dt)
     })
   }
 
@@ -230,13 +230,14 @@ export default class Index extends Component {
             </View>
             <Slider className='time-line' tep={ 0.01 } value={ playPercent } activeColor='#fff' backgroundColor='#888'
                     blockColor='#fff' blockSize={ 18 }
-                    onChange={ () => {
-                      this.percentChange()
-                    } } onChanging={ () => {
-              this.percentChanging()
-            } }></Slider>
+                    onChange={ (e) => {
+                      this.percentChange(e)
+                    } } onChanging={ (e) => {
+                      this.percentChanging(e)
+                    } }>
+            </Slider>
             <View className='time-right'>
-              { timeLengthFormator(chapter.dt * 1000) }
+              { timeLengthFormator(chapter.dt) }
             </View>
 
           </View>

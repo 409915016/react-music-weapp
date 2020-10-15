@@ -44,8 +44,8 @@ export default class Index extends Component {
     this.setState({chapter: chapters.find(i => i.book_id == book_id)})
 
     let that = this
-    // fix 点击同一首歌重新播放bug
-    Taro.getAvailableAudioSources({
+
+    Taro.getBackgroundAudioPlayerState({
       success (res) {
         if (res.status !== 2) {
           that.setState({
@@ -71,10 +71,6 @@ export default class Index extends Component {
   componentDidMount () {
 
     const that = this
-    // const {id} = that.$router.params
-    // this.props.getSongInfo({
-    //   id
-    // })
 
     backgroundAudioManager.onPause(() => {
       this.onPause()
@@ -96,14 +92,10 @@ export default class Index extends Component {
     })
   }
 
-  componentWillUnmount () {
-    // 更新下播放状态
-    this.props.updateState({
-      isPlaying: this.state.isPlaying
-    })
-  }
+  componentWillUnmount () {}
 
-  componentDidUpdate (prevProps, {book, chapter, currentyTime, playPercent, isPlaying, isOpened, options}) {
+  componentDidUpdate (prevProps, {firstEnter, book, chapter, currentyTime, playPercent, isPlaying, isOpened, options}) {
+
     if (this.state.chapter.id !== chapter.id || this.state.firstEnter) {
       this.setState({
         firstEnter: false,
@@ -113,7 +105,6 @@ export default class Index extends Component {
   }
 
   setSongInfo (songInfo) {
-    console.log(songInfo)
     try {
       const {title, url, thumb} = songInfo
       backgroundAudioManager.title       = title
@@ -178,7 +169,7 @@ export default class Index extends Component {
   // 获取上一首
   getPrevSong () {
     const {id, canPlayList} = this.state.chapter
-    let nextSongId                          = id + 1
+    let nextSongId                          = id - 1
     if (nextSongId <= 10) nextSongId = 14
     this.setState({
       chapter: chapters.find(i => i.id == nextSongId)
@@ -200,6 +191,7 @@ export default class Index extends Component {
   }
 
   doPlaySong(id) {
+    if(id == this.state.chapter.id) return
     this.setState({
       chapter: chapters.find(i => i.id == id)
     })

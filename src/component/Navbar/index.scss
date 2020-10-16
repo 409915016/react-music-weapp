@@ -1,0 +1,42 @@
+.header-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  transition: background-color ease-out .3s;
+
+  padding: 65rpx 30px 25px;
+
+  &--white {
+    background: #fff;
+
+  }
+
+  &__left-view {
+    flex: 2;
+    height: 100%;
+    text-align: left;
+    .icon {
+      font-size: 48rpx;
+    }
+    &--gary {
+      color: #999;
+    }
+
+    &--black {
+      color: #333;
+    }
+
+  }
+  &__title {
+    flex: 5;
+    color: #333;
+    text-align: center;
+    font-size: 18rpx;
+  }
+}

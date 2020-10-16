@@ -5,6 +5,7 @@ import {View, Text, Image, Slider} from '@tarojs/components'
 
 import PlayList    from '../../component/PlayList'
 import PlayContent from '../../component/PlayContent'
+import Layout from '../../component/Layout'
 
 import books    from '../../assets/books.json'
 import chapters from '../../assets/chapters.json'
@@ -19,7 +20,7 @@ const backgroundAudioManager = Taro.getBackgroundAudioManager()
 
 let timer
 
-export default class Index extends Component {
+class Player extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -66,6 +67,8 @@ export default class Index extends Component {
       }
 
     })
+
+
 
   }
 
@@ -213,93 +216,97 @@ export default class Index extends Component {
 
     return (
 
-      <View className="player-wrapper">
-        <View className="player-content">
-
-          <View className="player-content__title">
-            <Text>{ book.title }</Text>
-          </View>
-          <View className="player-content__desc">
-            <Text> { chapter.title }</Text>
-          </View>
-          <View className="player-content__cover">
-            <Image src={ book.cover_url }/>
-
-          </View>
-          <View className="player-content__time">
-            <View className='time-left'>
-              { timeLengthFormator(currentyTime * 1000) }
+      <Layout>
+        <View className="player-wrapper">
+          <View className="player-content">
+            <View className="player-content__title">
+              <Text>{ book.title }</Text>
             </View>
-            <Slider className='time-line' tep={ 0.01 } value={ playPercent } activeColor='#fff' backgroundColor='#888'
-                    blockColor='#fff' blockSize={ 18 }
-                    onChange={ (e) => {
-                      this.percentChange(e)
-                    } } onChanging={ (e) => {
-                      this.percentChanging(e)
-                    } }>
-            </Slider>
-            <View className='time-right'>
-              { timeLengthFormator(chapter.dt) }
+            <View className="player-content__desc">
+              <Text> { chapter.title }</Text>
+            </View>
+            <View className="player-content__cover">
+              <Image src={ book.cover_url }/>
+
+            </View>
+            <View className="player-content__time">
+              <View className='time-left'>
+                { timeLengthFormator(currentyTime * 1000) }
+              </View>
+              <Slider className='time-line' tep={ 0.01 } value={ playPercent } activeColor='#fff' backgroundColor='#888'
+                      blockColor='#fff' blockSize={ 18 }
+                      onChange={ (e) => {
+                        this.percentChange(e)
+                      } } onChanging={ (e) => {
+                this.percentChanging(e)
+              } }>
+              </Slider>
+              <View className='time-right'>
+                { timeLengthFormator(chapter.dt) }
+              </View>
+
+            </View>
+
+            <View className="player-content__bottom">
+              <View onClick={ () => {
+                this.handleCPlayList()
+              } }>
+                <View className='icon iconfont icon-list'></View>
+                <Text className='player-content__bottom-text'>列表</Text>
+              </View>
+              <View
+                className='icon iconfont icon-prev'
+                onClick={ () => {
+                  this.getPrevSong()
+                } }
+              />
+              {
+                isPlaying ? <View src={ ajd } className='icon iconfont icon-pause' onClick={ () => {
+                    this.pauseMusic()
+                  } }/> :
+                  <View src={ ajf } className='icon iconfont icon-play' onClick={ () => {
+                    this.playMusic()
+                  } }/>
+              }
+              <View
+                className='icon iconfont icon-next'
+                onClick={ () => {
+                  this.getNextSong()
+                } }
+              />
+              <View>
+                <View className='icon iconfont icon-share'></View>
+                <Text className='player-content__bottom-text'>分享</Text>
+              </View>
             </View>
 
           </View>
 
-          <View className="player-content__bottom">
-            <View onClick={ () => {
+          <PlayContent
+            current={ chapter }
+            book={ book } chapters={ options.chapters }
+            handleClose={ () => {
               this.handleCPlayList()
-            } }>
-              <View className='icon iconfont icon-list'></View>
-              <Text className='player-content__bottom-text'>列表</Text>
-            </View>
-            <View
-              className='icon iconfont icon-prev'
-              onClick={ () => {
-                this.getPrevSong()
-              } }
-            />
-            {
-              isPlaying ? <View src={ ajd } className='icon iconfont icon-pause' onClick={ () => {
-                  this.pauseMusic()
-                } }/> :
-                <View src={ ajf } className='icon iconfont icon-play' onClick={ () => {
-                  this.playMusic()
-                } }/>
-            }
-            <View
-              className='icon iconfont icon-next'
-              onClick={ () => {
-                this.getNextSong()
-              } }
-            />
-            <View>
-              <View className='icon iconfont icon-share'></View>
-              <Text className='player-content__bottom-text'>分享</Text>
-            </View>
-          </View>
+            } }
+          />
+
+          {/*<View className="player-line"></View>*/ }
+
+          <PlayList isOpened={ isOpened }
+                    chapters={ options.chapters }
+                    current={ chapter }
+                    handleClose={ () => {
+                      this.handleCPlayList()
+                    } }
+                    doPlaySong={ (id) => {
+                      this.doPlaySong(id)
+                    } }/>
 
         </View>
+      </Layout>
 
-        <PlayContent
-          current={ chapter }
-          book={ book } chapters={ options.chapters }
-          handleClose={ () => {
-            this.handleCPlayList()
-          } }
-        />
-
-        {/*<View className="player-line"></View>*/ }
-
-        <PlayList isOpened={ isOpened }
-                  chapters={ options.chapters }
-                  current={ chapter }
-                  handleClose={ () => {
-                    this.handleCPlayList()
-                  } }
-                  doPlaySong={ (id) => {
-                    this.doPlaySong(id)
-                  } }/>
-
-      </View>
     )
   }
 }
+
+export default Player

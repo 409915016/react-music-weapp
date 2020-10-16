@@ -4,21 +4,6 @@
   padding-top: 0;
 }
 .playlist{
-  display: flex;
-  align-items: center;
-  padding: 20px;
-  justify-content: space-between;
-  border-top: 1PX solid #d6e4ef;
-  .info{
-    display: flex;
-    align-items: center;
-    font-size: 30px;
-    color: #000;
-    .sub-text{
-      font-size: 26px;
-      color: #999;
-    }
-  }
   &.active{
     .info{
       color: #d43c33;
@@ -48,6 +33,10 @@
   }
 }
 
+.at-list__item {
+  padding: 24rpx 40rpx;
+}
+
 .at-list__item.active  {
   color: #C63125;
 }
@@ -68,7 +57,7 @@
     content: "\e63b";
     position: absolute;
     display: inline-block;
-    right: 15rpx;
+    right: 20rpx;
     top: 50%;
     transform: translateY(-50%);
     font-family: "iconfont" !important;
@@ -79,4 +68,9 @@
 
   }
 
+}
+
+
+.layout-body {
+  padding: 18rpx 0 !important;
 }

@@ -5,7 +5,7 @@ import {View, Text, Image, Slider} from '@tarojs/components'
 
 import PlayList    from '../../component/PlayList'
 import PlayContent from '../../component/PlayContent'
-import Layout from '../../component/Layout'
+import Layout      from '../../component/Layout'
 
 import books    from '../../assets/books.json'
 import chapters from '../../assets/chapters.json'
@@ -52,7 +52,7 @@ class Player extends Component {
           that.setState({
             isPlaying: true,
           })
-          that.setState({chapter: chapters.find(i => i.url ==  res.dataUrl)})
+          that.setState({chapter: chapters.find(i => i.url == res.dataUrl)})
           timer = setInterval(() => {
             that.setState({
               currentyTime: backgroundAudioManager.currentTime
@@ -62,12 +62,11 @@ class Player extends Component {
           }, 300)
         }
       },
-      fail(err) {
+      fail (err) {
         console.error(err)
       }
 
     })
-
 
 
   }
@@ -96,7 +95,8 @@ class Player extends Component {
     })
   }
 
-  componentWillUnmount () {}
+  componentWillUnmount () {
+  }
 
   componentDidUpdate (prevProps, {firstEnter, book, chapter, currentyTime, playPercent, isPlaying, isOpened, options}) {
 
@@ -106,9 +106,9 @@ class Player extends Component {
       })
 
       Taro.getStorage({
-        key: 'playing',
-        success:  ({data}) => {
-          if(!data) {
+        key    : 'playing',
+        success: ({data}) => {
+          if (!data) {
             this.setSongInfo(this.state.chapter)
           }
         }
@@ -119,10 +119,10 @@ class Player extends Component {
 
   setSongInfo (songInfo) {
     try {
-      const {title, url, thumb} = songInfo
-      backgroundAudioManager.title       = title
-      backgroundAudioManager.src         = url,
-      backgroundAudioManager.coverImgUrl = thumb
+      const {title, url, thumb}    = songInfo
+      backgroundAudioManager.title = title
+      backgroundAudioManager.src = url,
+        backgroundAudioManager.coverImgUrl = thumb
       this.setState({
         isPlaying : true,
         firstEnter: false
@@ -168,10 +168,9 @@ class Player extends Component {
     backgroundAudioManager.pause()
   }
 
-  // 获取下一首
   getNextSong () {
     const {id, canPlayList} = this.state.chapter
-    let nextSongId                          = id + 1
+    let nextSongId          = id + 1
     if (nextSongId >= 15) nextSongId = 10
     this.setState({
       chapter: chapters.find(i => i.id == nextSongId)
@@ -179,10 +178,9 @@ class Player extends Component {
     this.setSongInfo(chapters.find(i => i.id == nextSongId))
   }
 
-  // 获取上一首
   getPrevSong () {
     const {id, canPlayList} = this.state.chapter
-    let nextSongId                          = id - 1
+    let nextSongId          = id - 1
     if (nextSongId <= 10) nextSongId = 14
     this.setState({
       chapter: chapters.find(i => i.id == nextSongId)
@@ -203,8 +201,8 @@ class Player extends Component {
     })
   }
 
-  doPlaySong(id) {
-    if(id == this.state.chapter.id) return
+  doPlaySong (id) {
+    if (id == this.state.chapter.id) return
     this.setState({
       chapter: chapters.find(i => i.id == id)
     })
@@ -290,8 +288,6 @@ class Player extends Component {
             } }
           />
 
-          {/*<View className="player-line"></View>*/ }
-
           <PlayList isOpened={ isOpened }
                     chapters={ options.chapters }
                     current={ chapter }
@@ -301,7 +297,6 @@ class Player extends Component {
                     doPlaySong={ (id) => {
                       this.doPlaySong(id)
                     } }/>
-
         </View>
       </Layout>
 

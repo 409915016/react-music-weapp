@@ -9,12 +9,6 @@ import Taro, {usePageScroll}       from '@tarojs/taro';
 function Navbar () {
   const [trigger, SetTrigger] = useState(false)
 
-  //const { nav, container, footer, children } = this.props
-
-  // setTimeout(()=>{
-  //   SetTrigger(true)
-  // }, 1000)
-
   usePageScroll(res => {
     console.log(res.scrollTop)
     SetTrigger(res.scrollTop > 20 ? true: false)

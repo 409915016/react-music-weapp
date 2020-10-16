@@ -2,22 +2,20 @@ import React, {Component} from 'react'
 
 import {View} from '@tarojs/components'
 
-import Navbar from "../../component/Navbar/index"
+import Navbar from '../../component/Navbar/index'
 
 import './index.scss'
 
 class Layout extends Component {
 
-  constructor(props) {
+  constructor (props) {
     super(props);
   }
 
-  componentWillMount () {
-    //console.log(this.props.canPlayList)
-  }
+  componentWillMount () {}
 
   render () {
-    const { nav, container, footer, children } = this.props
+    const {children} = this.props
     return (
       <View className="wrapper">
         <View className="header">

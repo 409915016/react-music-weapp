@@ -15,18 +15,10 @@ export default class Index extends Component {
     }
   }
 
-  componentWillMount () { }
-
   componentDidMount () {
     // const book_id = 1
     // Taro.navigateTo({ url: `/pages/player/index?book_id=${book_id}` })
   }
-
-  componentWillUnmount () {}
-
-  componentDidShow () { }
-
-  componentDidHide () { }
 
   ContentItemClickHandle({book_id}){
 
@@ -48,7 +40,6 @@ export default class Index extends Component {
       }
 
     })
-
 
     Taro.navigateTo({ url: `/pages/player/index?book_id=${book_id}&from=index` })
   }

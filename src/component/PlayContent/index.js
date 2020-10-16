@@ -10,12 +10,8 @@ import classnames           from 'classnames'
 import thumb from '../../assets/images/thumb.jpg'
 
 class PlayContent extends Component {
-  static options = {
-    addGlobalClass: true
-  }
 
   componentWillMount () {
-
   }
 
   doPlaySong (song) {
@@ -40,10 +36,6 @@ class PlayContent extends Component {
       )
     })
 
-  }
-
-  handleClose () {
-    this.props.handleClose()
   }
 
   render () {

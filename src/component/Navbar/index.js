@@ -10,7 +10,6 @@ function Navbar () {
   const [trigger, SetTrigger] = useState(false)
 
   usePageScroll(res => {
-    console.log(res.scrollTop)
     SetTrigger(res.scrollTop > 20 ? true: false)
   })
 

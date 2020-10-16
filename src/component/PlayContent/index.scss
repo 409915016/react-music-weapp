@@ -17,6 +17,14 @@
   white-space: inherit !important;
 }
 
+.at-list::after {
+  display: none!important;
+}
+
+.at-list__item::after {
+  right: 24rpx !important;
+}
+
 
 .at-list__item.active .item-content__info-title {
   color: #C63125;
@@ -41,4 +49,13 @@
     color: #222;
     padding-top: 40rpx;
   }
+}
+
+.at-float-layout .layout-header {
+  background-color: #fff;
+  border-bottom: 1rpx solid #F1F2F3;
+}
+
+.at-float-layout__container .layout-header__title {
+  padding: 10rpx 20rpx !important;
 }

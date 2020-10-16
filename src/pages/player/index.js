@@ -78,6 +78,9 @@ class Player extends Component {
     backgroundAudioManager.onPause(() => {
       this.onPause()
     })
+    backgroundAudioManager.onStop(() => {
+      this.onPause()
+    })
     backgroundAudioManager.onPlay(() => {
       that.setState({
         isPlaying: true

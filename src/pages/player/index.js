@@ -84,10 +84,14 @@ class Player extends Component {
     const that = this
 
     backgroundAudioManager.onPause(() => {
-      this.onPause()
+      this.pauseMusic()
     })
     backgroundAudioManager.onStop(() => {
-      this.onPause()
+      const {title, url, thumb} = this.state.chapter
+        backgroundAudioManager.title = title
+        backgroundAudioManager.src = url
+        backgroundAudioManager.coverImgUrl = thumb
+      this.pauseMusic()
     })
     backgroundAudioManager.onPlay(() => {
       that.setState({
@@ -132,8 +136,8 @@ class Player extends Component {
     try {
       const {title, url, thumb}    = songInfo
       backgroundAudioManager.title = title
-      backgroundAudioManager.src = url,
-        backgroundAudioManager.coverImgUrl = thumb
+      backgroundAudioManager.src = url
+      backgroundAudioManager.coverImgUrl = thumb
       this.setState({
         isPlaying : true,
         firstEnter: false
@@ -149,10 +153,18 @@ class Player extends Component {
     this.setState({
       isPlaying: false
     })
+    Taro.setStorage({
+      key: 'playing',
+      data: false
+    })
   }
 
   playMusic () {
     backgroundAudioManager.play()
+    Taro.setStorage({
+      key: 'playing',
+      data: true
+    })
     this.setState({
       isPlaying: true
     })

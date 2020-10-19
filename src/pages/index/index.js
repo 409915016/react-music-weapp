@@ -19,7 +19,7 @@ export default class Index extends Component {
       sources,
     }
   }
-  onPause(){
+  pauseMusic(){
     Taro.setStorage({
       key: 'playing',
       data: false
@@ -46,7 +46,7 @@ export default class Index extends Component {
     const that = this
 
     backgroundAudioManager.onStop(() => {
-      this.onPause()
+      this.pauseMusic()
     })
 
     // const book_id = 1

@@ -53,6 +53,7 @@ class Player extends Component {
       success (res) {
         console.log('success')
         if (res.status == 1) {
+          console.log(res.status)
           that.setState({
             isPlaying: true,
           })

@@ -23,13 +23,12 @@ export default class Index extends Component {
       data: false
     })
   }
-  onPlay() {
+  onPlay(song) {
     Taro.setStorage({
       key: 'playing',
       data: true
     })
-  }
-  playSong(song){
+
     const backgroundAudioManager = Taro.getBackgroundAudioManager()
 
     backgroundAudioManager.onStop(() => {
@@ -47,29 +46,22 @@ export default class Index extends Component {
   }
 
   componentDidMount () {
+    const that = this
     // const book_id = 1
     // Taro.navigateTo({ url: `/pages/player/index?book_id=${book_id}` })
     Taro.getBackgroundAudioPlayerState({
+      success (res) {
+        if (res.status !== 2) { //played on background
+          that.onPlay(chapters[0])
+        }
+      },
       fail (res) {
-        playAudio(chapters[0])
+        that.onPlay(chapters[0])
       }
     })
   }
 
   ContentItemClickHandle({book_id}){
-    const that = this
-    Taro.getBackgroundAudioPlayerState({
-      success (res) {
-        if (res.status !== 2) { //played on background
-          that.onPlay()
-        }
-      },
-      fail(err) {
-        that.onPause()
-      }
-
-    })
-
     Taro.navigateTo({ url: `/pages/player/index?book_id=${book_id}&from=index` })
   }
 

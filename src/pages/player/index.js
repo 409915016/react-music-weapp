@@ -39,16 +39,20 @@ class Player extends Component {
   }
 
   componentWillMount () {
+    let that = this
     const book_id    = getCurrentInstance().router.params.book_id || 1;
     const chapter_id = getCurrentInstance().router.params.chapter_id || 10;
     this.setState({book: books.find(i => i.id == book_id)})
     this.setState({chapter: chapters.find(i => i.book_id == book_id)})
 
-    let that = this
+    this.setState({
+      isPlaying: true,
+    })
 
     Taro.getBackgroundAudioPlayerState({
       success (res) {
-        if (res.status !== 2) {
+        console.log('success')
+        if (res.status == 1) {
           that.setState({
             isPlaying: true,
           })
@@ -60,15 +64,19 @@ class Player extends Component {
 
             that.updateProgress(backgroundAudioManager.currentTime)
           }, 300)
+        } else if( res.status == 0){
+          that.setState({
+            isPlaying: false,
+          })
         }
       },
       fail (err) {
-        console.error(err)
+        that.setState({
+          isPlaying: false,
+        })
       }
 
     })
-
-
   }
 
   componentDidMount () {

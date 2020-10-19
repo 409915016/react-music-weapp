@@ -17,8 +17,33 @@ export default class Index extends Component {
       sources,
     }
   }
-  playSong(){
+  onPause(){
+    Taro.setStorage({
+      key: 'playing',
+      data: false
+    })
+  }
+  onPlay() {
+    Taro.setStorage({
+      key: 'playing',
+      data: true
+    })
+  }
+  playSong(song){
+    const backgroundAudioManager = Taro.getBackgroundAudioManager()
 
+    backgroundAudioManager.onStop(() => {
+      this.onPause()
+    })
+
+    try {
+      const {title, url, thumb}          = song
+      backgroundAudioManager.title       = title
+      backgroundAudioManager.src         = url
+      backgroundAudioManager.coverImgUrl = thumb
+    } catch (err) {
+      console.log('err', err)
+    }
   }
 
   componentDidMount () {
@@ -32,22 +57,15 @@ export default class Index extends Component {
   }
 
   ContentItemClickHandle({book_id}){
-
+    const that = this
     Taro.getBackgroundAudioPlayerState({
       success (res) {
         if (res.status !== 2) { //played on background
-          Taro.setStorage({
-            key: 'playing',
-            data: true
-          })
+          that.onPlay()
         }
       },
       fail(err) {
-        console.error(err)
-        Taro.setStorage({
-          key: 'playing',
-          data: false
-        })
+        that.onPause()
       }
 
     })

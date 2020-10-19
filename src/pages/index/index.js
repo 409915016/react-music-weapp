@@ -9,6 +9,8 @@ import chapters from '../../assets/chapters.json'
 
 import {playAudio} from '../../utils'
 
+const backgroundAudioManager = Taro.getBackgroundAudioManager()
+
 export default class Index extends Component {
   constructor(props){
     super(props)
@@ -29,12 +31,6 @@ export default class Index extends Component {
       data: true
     })
 
-    const backgroundAudioManager = Taro.getBackgroundAudioManager()
-
-    backgroundAudioManager.onStop(() => {
-      this.onPause()
-    })
-
     try {
       const {title, url, thumb}          = song
       backgroundAudioManager.title       = title
@@ -46,7 +42,13 @@ export default class Index extends Component {
   }
 
   componentDidMount () {
+
     const that = this
+
+    backgroundAudioManager.onStop(() => {
+      this.onPause()
+    })
+
     // const book_id = 1
     // Taro.navigateTo({ url: `/pages/player/index?book_id=${book_id}` })
     Taro.getBackgroundAudioPlayerState({

@@ -192,7 +192,7 @@ class Player extends Component {
   getPrevSong () {
     const {id, canPlayList} = this.state.chapter
     let nextSongId          = id - 1
-    if (nextSongId <= 10) nextSongId = 14
+    if (nextSongId <= 9) nextSongId = 14
     this.setState({
       chapter: chapters.find(i => i.id == nextSongId)
     })

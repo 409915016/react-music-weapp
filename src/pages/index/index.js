@@ -5,26 +5,37 @@ import Taro from '@tarojs/taro'
 import './index.scss'
 import books   from '../../assets/books.json'
 import sources from '../../assets/index.json'
+import chapters from '../../assets/chapters.json'
+
+import {playAudio} from '../../utils'
 
 export default class Index extends Component {
   constructor(props){
     super(props)
     this.state = {
       books,
-      sources
+      sources,
     }
+  }
+  playSong(){
+
   }
 
   componentDidMount () {
     // const book_id = 1
     // Taro.navigateTo({ url: `/pages/player/index?book_id=${book_id}` })
+    Taro.getBackgroundAudioPlayerState({
+      fail (res) {
+        playAudio(chapters[0])
+      }
+    })
   }
 
   ContentItemClickHandle({book_id}){
 
     Taro.getBackgroundAudioPlayerState({
       success (res) {
-        if (res.status !== 2) {
+        if (res.status !== 2) { //played on background
           Taro.setStorage({
             key: 'playing',
             data: true

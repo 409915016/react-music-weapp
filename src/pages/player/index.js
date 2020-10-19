@@ -51,9 +51,8 @@ class Player extends Component {
 
     Taro.getBackgroundAudioPlayerState({
       success (res) {
-        console.log('success')
         if (res.status == 1) {
-          console.log(res.status)
+
           that.setState({
             isPlaying: true,
           })

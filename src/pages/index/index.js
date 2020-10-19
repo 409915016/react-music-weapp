@@ -62,6 +62,27 @@ export default class Index extends Component {
   }
 
   ContentItemClickHandle({book_id}){
+    const that = this
+
+    Taro.getBackgroundAudioPlayerState({
+      success (res) {
+        if (res.status !== 2) { //played on background
+          Taro.setStorage({
+            key: 'playing',
+            data: true
+          })
+        } else {
+          that.onPlay(chapters[0])
+        }
+      },
+      fail (res) {
+        Taro.setStorage({
+          key: 'playing',
+          data: false
+        })
+      }
+    })
+
     Taro.navigateTo({ url: `/pages/player/index?book_id=${book_id}&from=index` })
   }
 

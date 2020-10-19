@@ -133,6 +133,11 @@ class Player extends Component {
   }
 
   setSongInfo (songInfo) {
+
+    const {title, url, thumb}    = songInfo
+    backgroundAudioManager.title = title
+    backgroundAudioManager.src = url
+    backgroundAudioManager.coverImgUrl = thumb
     try {
       this.setState({
         isPlaying : true,

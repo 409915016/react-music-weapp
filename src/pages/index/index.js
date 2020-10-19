@@ -52,6 +52,11 @@ export default class Index extends Component {
     Taro.getBackgroundAudioPlayerState({
       success (res) {
         if (res.status !== 2) { //played on background
+          Taro.setStorage({
+            key: 'playing',
+            data: true
+          })
+        } else {
           that.onPlay(chapters[0])
         }
       },

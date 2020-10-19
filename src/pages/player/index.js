@@ -33,21 +33,49 @@ class Player extends Component {
       playPercent : 0,
       isPlaying   : false,
       isOpened    : false,
-      firstEnter  : true
+      firstEnter  : true,
+      isStop      : false
 
     }
   }
 
+  component
+
   componentWillMount () {
+
     let that = this
+
+    backgroundAudioManager.onPause(() => {
+      console.log('onPause')
+      this.onPause()
+    })
+    backgroundAudioManager.onStop(() => {
+      console.log('onStop')
+      this.setState({
+        isStop: true
+      })
+      this.onPause()
+    })
+    backgroundAudioManager.onPlay(() => {
+      this.setState({
+        isPlaying: true
+      })
+      const timer = setInterval(() => {
+        if (!this.state.isPlaying) return
+        this.setState({
+          currentyTime: backgroundAudioManager.currentTime
+        })
+        this.updateProgress(backgroundAudioManager.currentTime)
+      }, 300)
+    })
+    backgroundAudioManager.onEnded(() => {
+      this.getNextSong()
+    })
+
     const book_id    = getCurrentInstance().router.params.book_id || 1;
     const chapter_id = getCurrentInstance().router.params.chapter_id || 10;
     this.setState({book: books.find(i => i.id == book_id)})
     this.setState({chapter: chapters.find(i => i.book_id == book_id)})
-
-    this.setState({
-      isPlaying: true,
-    })
 
     Taro.getBackgroundAudioPlayerState({
       success (res) {
@@ -80,34 +108,6 @@ class Player extends Component {
   }
 
   componentDidMount () {
-
-    const that = this
-
-    backgroundAudioManager.onPause(() => {
-      this.pauseMusic()
-    })
-    backgroundAudioManager.onStop(() => {
-      const {title, url, thumb} = this.state.chapter
-        backgroundAudioManager.title = title
-        backgroundAudioManager.src = url
-        backgroundAudioManager.coverImgUrl = thumb
-      this.pauseMusic()
-    })
-    backgroundAudioManager.onPlay(() => {
-      that.setState({
-        isPlaying: true
-      })
-      const timer = setInterval(() => {
-        if (!this.state.isPlaying) return
-        this.setState({
-          currentyTime: backgroundAudioManager.currentTime
-        })
-        this.updateProgress(backgroundAudioManager.currentTime)
-      }, 300)
-    })
-    backgroundAudioManager.onEnded(() => {
-      this.getNextSong()
-    })
   }
 
   componentWillUnmount () {
@@ -134,10 +134,6 @@ class Player extends Component {
 
   setSongInfo (songInfo) {
     try {
-      const {title, url, thumb}    = songInfo
-      backgroundAudioManager.title = title
-      backgroundAudioManager.src = url
-      backgroundAudioManager.coverImgUrl = thumb
       this.setState({
         isPlaying : true,
         firstEnter: false
@@ -150,9 +146,6 @@ class Player extends Component {
 
   pauseMusic () {
     backgroundAudioManager.pause()
-    this.setState({
-      isPlaying: false
-    })
     Taro.setStorage({
       key: 'playing',
       data: false
@@ -160,20 +153,49 @@ class Player extends Component {
   }
 
   playMusic () {
+    if(this.state.isStop) {
+      const {title, url, thumb}    = this.state.chapter
+      backgroundAudioManager.title = title
+      backgroundAudioManager.src = url
+      backgroundAudioManager.coverImgUrl = thumb
+      this.setState({
+        isStop: false
+      })
+    }
     backgroundAudioManager.play()
     Taro.setStorage({
       key: 'playing',
       data: true
     })
     this.setState({
-      isPlaying: true
+      isPlaying: true,
     })
+  }
+
+  onStop() {
+    clearInterval(timer)
+    // backgroundAudioManager.pause()
+
+    this.setState({
+      isPlaying: false,
+      firstEnter: true,
+    })
+    Taro.setStorage({
+      key: 'playing',
+      data: false
+    })
+
+    // const {title, url, thumb}    = this.state.chapter
+    // backgroundAudioManager.title = title
+    // backgroundAudioManager.src = url
+    // backgroundAudioManager.coverImgUrl = thumb
   }
 
   onPause () {
     clearInterval(timer)
     this.setState({
-      isPlaying: false
+      isPlaying: false,
+      firstEnter: false
     })
   }
 

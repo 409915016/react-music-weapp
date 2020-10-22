@@ -1,7 +1,13 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom';
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
 import './app.scss'
 import './assets/fonts/iconfont.css'
-import 'taro-ui/dist/style/index.scss' // 全局引入一次即可
+import 'taro-ui/dist/style/index.scss'
+
+import rootReducer from './reducers/rootReducer'
+const store = createStore(rootReducer)
 
 class App extends Component {
 
@@ -13,9 +19,12 @@ class App extends Component {
 
   componentDidCatchError () {}
 
-  // this.props.children 是将要会渲染的页面
   render () {
-    return this.props.children
+    return (
+      <Provider store={store}>
+        {this.props.children}
+      </Provider>
+    )
   }
 }
 

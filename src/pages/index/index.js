@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useLayoutEffect} from 'react'
 import {View, Text}                                  from '@tarojs/components'
 import Taro                                          from '@tarojs/taro'
+import { connect } from 'react-redux'
 
 import './index.scss'
 import _books                                        from '../../assets/books.json'
@@ -23,6 +24,10 @@ const onPlay = (song) => {
     data: true
   })
 
+  if(process.env.TARO_ENV !== 'weapp') {
+    return
+  }
+
   try {
     const {title, url, thumb}          = song
     backgroundAudioManager.title       = title
@@ -34,6 +39,10 @@ const onPlay = (song) => {
 }
 
 const ContentItemClickHandle = ({book_id}) => {
+
+  if(process.env.TARO_ENV !== 'weapp') {
+    return
+  }
 
   Taro.getBackgroundAudioPlayerState({
     success(res) {
@@ -57,12 +66,20 @@ const ContentItemClickHandle = ({book_id}) => {
   Taro.navigateTo({url: `/pages/player/index?book_id=${book_id}&from=index`})
 }
 
-function Index() {
+const Index = ({player}) => {
   const [books, SetBooks]       = useState(_books)
   const [sources, SetSources]   = useState(_sources)
   const [chapters, SetChapters] = useState(_chapters)
 
+
+
   useLayoutEffect(() => {
+
+    if(process.env.TARO_ENV !== 'weapp') {
+      return
+    }
+
+    console.log(player)
 
     backgroundAudioManager.onStop(() => {
       this.pauseMusic()
@@ -125,4 +142,10 @@ function Index() {
 
 }
 
-export default Index
+const mapStateToProps = (state) =>{
+  return {
+    player: state.player
+  }
+}
+
+export default connect(mapStateToProps)(Index)

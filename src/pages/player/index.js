@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
 
 import Taro, {getCurrentInstance}  from '@tarojs/taro'
 import {View, Text, Image, Slider} from '@tarojs/components'
@@ -354,4 +355,10 @@ class Player extends Component {
   }
 }
 
-export default Player
+const mapStateToProps = (state) =>{
+  return {
+    player: state.player
+  }
+}
+
+export default connect(mapStateToProps)(Player)

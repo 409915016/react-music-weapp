@@ -1,4 +1,7 @@
 const initState = {
+    player: {
+      playing: false
+    }
 }
 
 const rootReducer = (state = initState, action) => {
